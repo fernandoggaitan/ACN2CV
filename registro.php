@@ -14,11 +14,20 @@ $contrasena = $_POST['contrasena'] ?? null;
 //Saneo de contraseña
 $contrasena = filter_password($contrasena);
 
+$cv = $_FILES['cv'] ?? null;
+
 //Errores de validación.
 $errores = [];
 
 if( $_SERVER['REQUEST_METHOD'] == 'POST' )
 {
+
+    //Archivo temporal
+    $from = $cv['tmp_name'];
+
+    $time = time();
+    //Path donde se va a guardar.
+    $to = "./cvs/{$time}{$cv['name']}";
 
     if( empty($nombre) ){
         array_push($errores, 'Usted debe ingrear un nombre');
@@ -32,8 +41,33 @@ if( $_SERVER['REQUEST_METHOD'] == 'POST' )
         array_push($errores, 'Usted debe ingrear una contraseña con un formato correcto (caracteres alfabéticos con minúscula y mayúscula, un número y un caracter especial)');
     }
 
+    //Validación de archivo
+    if( $cv['error'] != 0 ){
+        array_push($errores, 'Por favor adjunte un documento');
+    }
+
     if( count($errores) == 0 ){
         //No hay errores.
+
+        //Subir el documento.
+        move_uploaded_file($from, $to);
+
+        //Recuperamos el JSON de empleados.
+        $json = file_get_contents('./data/empleados.json');
+        //Lo convertimos a array
+        $empleados = json_decode($json, true);
+        //Agregamos la/el empleada/o nueva/o
+        array_push($empleados, [
+            'nombre' => $nombre,
+            'email' => $email,
+            'contrasena' => $contrasena,
+            'cv' => $to
+        ]);
+
+        //Pisamos el archivo de datos.
+        $json = json_encode($empleados);
+        file_put_contents('./data/empleados.json', $json);
+
         header('Location: registro_resultado.php');
     }
     
@@ -66,7 +100,7 @@ if( $_SERVER['REQUEST_METHOD'] == 'POST' )
             <?php endforeach ?>
         </ul>
 
-        <form action="./registro.php" method="post">
+        <form action="./registro.php" method="post" enctype="multipart/form-data">
             <div class="mb-3">
                 <label for="nombre" class="form-label"> Nombre </label>
                 <input type="text" class="form-control" name="nombre" id="nombre" value="<?php echo $nombre ?>">
@@ -78,6 +112,10 @@ if( $_SERVER['REQUEST_METHOD'] == 'POST' )
             <div class="mb-3">
                 <label for="contrasena" class="form-label">Contraseña</label>
                 <input type="password" class="form-control" name="contrasena" id="contrasena">
+            </div>
+            <div class="mb-3">
+                <label for="cv" class="form-label">Cv</label>
+                <input type="file" class="form-control" name="cv" id="cv">
             </div>
             <button type="submit" class="btn btn-primary"> Postularme </button>
         </form>
