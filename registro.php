@@ -58,10 +58,12 @@ if( $_SERVER['REQUEST_METHOD'] == 'POST' )
         $empleados = json_decode($json, true);
         //Agregamos la/el empleada/o nueva/o
         array_push($empleados, [
+            'id' => time(),
             'nombre' => $nombre,
             'email' => $email,
             'contrasena' => $contrasena,
-            'cv' => $to
+            'cv' => $to,
+            'rol' => 'Postulante'
         ]);
 
         //Pisamos el archivo de datos.
