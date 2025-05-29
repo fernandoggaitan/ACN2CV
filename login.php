@@ -3,6 +3,8 @@
 session_start();
 
 require_once('./funciones/funciones_input.php');
+require_once('./database/conexion.php');
+require_once('./database/consultas_usuarios.php');
 
 $email = $_POST['email'] ?? null;
 //Saneo de email
@@ -18,32 +20,14 @@ $errores = [];
 if( $_SERVER['REQUEST_METHOD'] == 'POST' )
 {
 
-    //Recuperamos el JSON de empleados.
-    $json = file_get_contents('./data/empleados.json');
-    //Lo convertimos a array
-    $empleados = json_decode($json, true);
-
-    $empleado = null;
-    $i = 0;
-
-    while( $i < count($empleados) and is_null($empleado) ){
-
-        //Simulación del alias que no existe en while.
-        $e = $empleados[$i];
-
-        if( $email == $e['email'] and $contrasena == $e['contrasena'] ){
-            $empleado = $e;
-        }
-
-        $i++;
-    }
-
-    if( $empleado ){
+    $usuario = getUsuarioLogin($conexion, $email, $contrasena);
+    
+    if( $usuario ){
         
         $_SESSION['usuario'] = [
-            'id' => $empleado['id'],
-            'nombre' => $empleado['nombre'],
-            'rol' => $empleado['rol']
+            'id' => $usuario['id'],
+            'nombre' => $usuario['nombre'],
+            'rol' => $usuario['rol']
         ];
 
         header('Location: ./index.php');
@@ -67,7 +51,7 @@ if( $_SERVER['REQUEST_METHOD'] == 'POST' )
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 
-    <title> Registro </title>
+    <title> Iniciar sesión </title>
 </head>
 
 <body>

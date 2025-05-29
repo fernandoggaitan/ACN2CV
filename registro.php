@@ -1,6 +1,8 @@
 <?php
 
 require_once('./funciones/funciones_input.php');
+require_once('./database/conexion.php');
+require_once('./database/consultas_usuarios.php');
 
 $nombre = $_POST['nombre'] ?? null;
 //Saneo de nombre.
@@ -52,23 +54,13 @@ if( $_SERVER['REQUEST_METHOD'] == 'POST' )
         //Subir el documento.
         move_uploaded_file($from, $to);
 
-        //Recuperamos el JSON de empleados.
-        $json = file_get_contents('./data/empleados.json');
-        //Lo convertimos a array
-        $empleados = json_decode($json, true);
-        //Agregamos la/el empleada/o nueva/o
-        array_push($empleados, [
-            'id' => time(),
+        addUsuario($conexion, [
             'nombre' => $nombre,
             'email' => $email,
             'contrasena' => $contrasena,
             'cv' => $to,
             'rol' => 'Postulante'
         ]);
-
-        //Pisamos el archivo de datos.
-        $json = json_encode($empleados);
-        file_put_contents('./data/empleados.json', $json);
 
         header('Location: registro_resultado.php');
     }

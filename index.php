@@ -21,6 +21,14 @@ if( !$usuario ){
 <body>
     <h1> Hola <?php echo $usuario['nombre'] ?> </h1>
 
+    <div class="container">
+        <?php if($usuario['rol'] == 'Postulante'): ?>
+            <p> Estamos analizando tu perfil. Nos pondremos en contacto con vos a la brevedad. </p>
+        <?php else: ?>
+            <p> Gracias por trabajar con nosotros </p>
+        <?php endif ?>
+    </div>
+
     <form action="./logout.php" method="post">
         <button type="submit" class="btn btn-primary"> Cerrar sesión </button>
     </form>
