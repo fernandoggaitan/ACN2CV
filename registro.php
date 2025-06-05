@@ -1,5 +1,7 @@
 <?php
 
+require_once ('./_init.php');
+
 require_once('./funciones/funciones_input.php');
 require_once('./database/conexion.php');
 require_once('./database/consultas_usuarios.php');
@@ -14,7 +16,7 @@ $email = filter_var($email, FILTER_VALIDATE_EMAIL);
 
 $contrasena = $_POST['contrasena'] ?? null;
 //Saneo de contraseña
-$contrasena = filter_password($contrasena);
+//$contrasena = filter_password($contrasena);
 
 $cv = $_FILES['cv'] ?? null;
 
@@ -53,6 +55,9 @@ if( $_SERVER['REQUEST_METHOD'] == 'POST' )
 
         //Subir el documento.
         move_uploaded_file($from, $to);
+
+        //Hash de contraseña
+        $contrasena = password_hash($contrasena, PASSWORD_DEFAULT);
 
         addUsuario($conexion, [
             'nombre' => $nombre,

@@ -1,6 +1,6 @@
 <?php
 
-session_start();
+require_once ('./_init.php');
 
 require_once('./funciones/funciones_input.php');
 require_once('./database/conexion.php');
@@ -20,9 +20,9 @@ $errores = [];
 if( $_SERVER['REQUEST_METHOD'] == 'POST' )
 {
 
-    $usuario = getUsuarioLogin($conexion, $email, $contrasena);
+    $usuario = getUsuarioLogin($conexion, $email);
     
-    if( $usuario ){
+    if( $usuario and password_verify( $contrasena, $usuario['contrasena'] ) ){
         
         $_SESSION['usuario'] = [
             'id' => $usuario['id'],

@@ -12,18 +12,16 @@ function getUsuarios(PDO $conexion)
     return $usuarios;
 }
 
-function getUsuarioLogin(PDO $conexion, string $email, string $contrasena)
+function getUsuarioLogin(PDO $conexion, string $email)
 {
 
     $consulta = $conexion->prepare('
-        SELECT id, nombre, rol
+        SELECT id, nombre, rol, contrasena
         FROM usuarios
         WHERE email = :email
-        AND contrasena = :contrasena
     ');
 
     $consulta->bindValue(':email', $email);
-    $consulta->bindValue(':contrasena', $contrasena);
 
     $consulta->execute();
 

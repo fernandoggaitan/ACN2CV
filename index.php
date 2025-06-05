@@ -1,8 +1,6 @@
 <?php
 
-session_start();
-
-$usuario = $_SESSION['usuario'] ?? null;
+require_once ('./_init.php');
 
 //Verifica si el usuario inició sesión.
 if( !$usuario ){
@@ -16,22 +14,23 @@ if( !$usuario ){
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Bienvenida/o</title>
+
+    <?php require_once('./partials/_css.php') ?>
+
 </head>
 <body>
-    <h1> Hola <?php echo $usuario['nombre'] ?> </h1>
 
     <div class="container">
+        <h1> Hola <?php echo $usuario['nombre'] ?> </h1>
         <?php if($usuario['rol'] == 'Postulante'): ?>
             <p> Estamos analizando tu perfil. Nos pondremos en contacto con vos a la brevedad. </p>
         <?php else: ?>
             <p> Gracias por trabajar con nosotros </p>
-        <?php endif ?>
+        <?php endif ?>        
     </div>
 
-    <form action="./logout.php" method="post">
-        <button type="submit" class="btn btn-primary"> Cerrar sesión </button>
-    </form>
+    <?php require_once('./partials/_js.php') ?>
 
 </body>
 </html>

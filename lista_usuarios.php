@@ -1,6 +1,6 @@
 <?php
 
-session_start();
+require_once ('./_init.php');
 
 require_once('./database/conexion.php');
 require_once('./database/consultas_usuarios.php');
