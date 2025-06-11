@@ -21,6 +21,8 @@ if( !$usuario ){
 </head>
 <body>
 
+    <?php require('./partials/_nav.php') ?>
+
     <div class="container">
         <h1> Hola <?php echo $usuario['nombre'] ?> </h1>
         <?php if($usuario['rol'] == 'Postulante'): ?>

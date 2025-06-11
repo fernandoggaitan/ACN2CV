@@ -5,16 +5,12 @@ require_once ('./_init.php');
 require_once('./database/conexion.php');
 require_once('./database/consultas_usuarios.php');
 
-$usuarios = getUsuarios($conexion);
-
-/*
-$usuario = $_SESSION['usuario'] ?? null;
-
-//Verifica si el usuario inició sesión.
-if( !$usuario ){
-    header('Location: ./login.php');
+if( !$usuario or $usuario['rol'] == 'Postulante' )
+{
+    header('Location: login.php');
 }
-*/
+
+$usuarios = getUsuarios($conexion);
 
 ?>
 
@@ -31,6 +27,8 @@ if( !$usuario ){
 </head>
 
 <body>
+
+    <?php require('./partials/_nav.php') ?>
 
     <div class="container">
         <h1> Lista de usuarios </h1>

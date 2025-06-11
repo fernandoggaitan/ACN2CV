@@ -90,6 +90,8 @@ if( $_SERVER['REQUEST_METHOD'] == 'POST' )
 
 <body>
 
+    <?php require('./partials/_nav.php') ?>
+
     <div class="container">
         <h1> Registrarse </h1>
 
