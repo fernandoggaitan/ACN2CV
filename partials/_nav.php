@@ -25,7 +25,7 @@
               <a class="nav-link" href="/login.php"> Login </a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="/login.php"> Registro </a>
+              <a class="nav-link" href="/registro.php"> Registro </a>
             </li>
           <?php endif ?>
       </ul>

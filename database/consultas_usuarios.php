@@ -49,3 +49,17 @@ function addUsuario( PDO $conexion, array $data )
 
 
 }
+
+function contrateUsuario( PDO $conexion, int $id )
+{
+
+    $consulta = $conexion->prepare('
+        UPDATE usuarios
+        SET rol = "Empleado"
+        WHERE id = :id
+    ');
+
+    $consulta->bindValue(':id', $id);
+    $consulta->execute();
+
+}

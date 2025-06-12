@@ -10,6 +10,15 @@ if( !$usuario or $usuario['rol'] == 'Postulante' )
     header('Location: login.php');
 }
 
+$accion = $_POST['accion'] ?? null;
+
+if( $accion == 'CONTRATAR' )
+{
+    $id = $_POST['id'] ?? null;    
+    contrateUsuario($conexion, $id);
+    header('Location: lista_usuarios.php');
+}
+
 $usuarios = getUsuarios($conexion);
 
 ?>
@@ -49,7 +58,11 @@ $usuarios = getUsuarios($conexion);
                         <td> <?php echo $usu['rol'] ?> </td>
                         <td>
                             <?php if($usu['rol'] == 'Postulante'): ?>
-                                <button type="submit" class="btn btn-success"> Contratar </button>
+                                <form action="./lista_usuarios.php" method="post">
+                                    <input type="hidden" name="accion" value="CONTRATAR" />
+                                    <input type="hidden" name="id" value="<?php echo $usu['id'] ?>" />
+                                    <button type="submit" class="btn btn-success"> Contratar </button>
+                                </form>
                             <?php endif ?>
                         </td>
                     </tr>

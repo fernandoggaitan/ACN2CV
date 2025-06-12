@@ -118,7 +118,11 @@ if( $_SERVER['REQUEST_METHOD'] == 'POST' )
                 <label for="cv" class="form-label">Cv</label>
                 <input type="file" class="form-control" name="cv" id="cv">
             </div>
-            <button type="submit" class="btn btn-primary"> Postularme </button>
+            <div class="mb-3 form-check">
+                <input type="checkbox" class="form-check-input" id="contrato">
+                <label class="form-check-label" for="contrato"> Acepto los términos y acepto registrarme </label>
+            </div>
+            <button type="submit" class="btn btn-primary" disabled> Postularme </button>
         </form>
 
     </div>
